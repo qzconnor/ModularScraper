@@ -1,5 +1,4 @@
 import { ipcRenderer, contextBridge } from 'electron'
-import { ModuleInstance } from 'sharedtypes'
 
 
 export const API = {

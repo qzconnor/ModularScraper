@@ -2,7 +2,6 @@ import { BrowserWindow, ipcMain, shell } from 'electron'
 import { loadModules, MODULES_PATH, runModule } from './module-loader';
 
 import chokidar from 'chokidar';
-import { DatePickerGrid } from 'reka-ui';
 
 const watcher = chokidar.watch(MODULES_PATH, {
     persistent: true,
@@ -15,8 +14,8 @@ export function injectApi(window: BrowserWindow | null) {
         return await loadModules(false);
     });
 
-    ipcMain.handle('run-module', async (event, name: string, data: any) => {
-        const [success, errors] = await runModule(name, {
+    ipcMain.handle('run-module', async (_event, name: string, data: any) => {
+        const [success, _] = await runModule(name, {
             data
         });
         return success;
@@ -42,9 +41,9 @@ export function injectApi(window: BrowserWindow | null) {
         window.isMaximized() ? window.unmaximize() : window.maximize();
     });
 
-    ipcMain.handle('get-module', async (event, name: string) => {
+    ipcMain.handle('get-module', async (_event, name: string) => {
         if(!name) return undefined;
-        const [modules, errors] = await loadModules(false);
+        const [modules, _] = await loadModules(false);
         const module = modules.find(m => m.name === name);
         return module;
     });
