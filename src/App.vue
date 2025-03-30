@@ -9,10 +9,6 @@
     TooltipProvider,
     TooltipTrigger
   } from '@/components/ui/tooltip'
-
-  window.api.getModules().then((modules) => {
-    console.log(modules);
-  });
 </script> 
 
 <template>

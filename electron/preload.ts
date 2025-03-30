@@ -1,12 +1,22 @@
 import { ipcRenderer, contextBridge } from 'electron'
+import { ModuleInstance } from 'sharedtypes'
 
 
 export const API = {
+  getModule: (name?: string) => ipcRenderer.invoke('get-module', name),
   getModules: () => ipcRenderer.invoke('list-modules'),
+  runModule: (name: string, data: any) => ipcRenderer.invoke('run-module', name, data),
   toggleMaximize: () => ipcRenderer.send('toggle-maximize'),
   close: () => ipcRenderer.send('close'),
   isMaximized: (): Promise<boolean> => ipcRenderer.invoke('is-maximized'),
   minimize: () => ipcRenderer.send('minimize'),
+  openModuleFolder: () => ipcRenderer.send('open-modulefolder'),
+
+
+  onModuleUpdated: (listener: () => Promise<void>) => ipcRenderer.on('module-updated', listener)
+
+
+
 }
 
 // --------- Expose some API to the Renderer process ---------

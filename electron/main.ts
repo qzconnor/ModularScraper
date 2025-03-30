@@ -5,7 +5,8 @@ import path from 'node:path'
 
 // Use `electron-store` to persist user preferences.
 // import store from './singelton/store';
-import {ensureModulePath, injectApi} from './module-loader';
+import {ensureModulePath} from './module-loader';
+import {injectApi} from './api';
 
 
 
@@ -38,7 +39,7 @@ function createWindow() {
     autoHideMenuBar: true,
     minHeight: 300,
     minWidth: 400,
-    icon: path.join(process.env.VITE_PUBLIC, 'fav.ico'),
+    icon: path.join(process.env.VITE_PUBLIC, 'icon.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
