@@ -28,7 +28,7 @@ function close() {
 </script> 
 
 <template>
-  <div class="w-full h-9 bg-neutral-100 text-neutral-800 dark:text-neutral-300 dark:bg-neutral-800 px-4 flex items-center justify-between titlebar">
+  <div class="w-full fixed top-0 h-9 bg-neutral-100 text-neutral-800 dark:text-neutral-300 dark:bg-neutral-800 px-4 flex items-center justify-between titlebar">
     <div class="text-sm font-semibold">
         {{ title }}
     </div>

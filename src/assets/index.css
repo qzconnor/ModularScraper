@@ -64,13 +64,15 @@
       --ring:35.5 91.7% 32.9%;
     }
 }
+
+/*bg-neutral-100 text-neutral-800 dark:text-neutral-300 dark:bg-neutral-800*/
   
 @layer base {
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300;
   }
 }
 

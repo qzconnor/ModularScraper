@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
   import Titlebar from '@/components/Titlebar.vue'
+  import Sidebar from '@/components/Sidebar.vue'
   import {RouterView} from "vue-router"
   import {
     Tooltip,
@@ -29,8 +30,12 @@
       </Tooltip>
     </Titlebar>
   </TooltipProvider>
-  <div class="w-full h-full">
-    <RouterView />
+  <div class="flex pt-9 w-full h-screen">
+    <Sidebar />
+    <div class="bg-background shadow-lg shadow-black w-full rounded-tl-xl p-4">
+      <RouterView />
+    </div>
+
   </div>
 </template>
 
