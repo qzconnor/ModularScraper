@@ -28,7 +28,7 @@ function close() {
 </script> 
 
 <template>
-  <div class="w-full fixed top-0 h-9 bg-neutral-100 text-neutral-800 dark:text-neutral-300 dark:bg-neutral-800 px-4 flex items-center justify-between titlebar">
+  <div class="w-full fixed top-0 h-9 bg-transparent pl-4 flex items-center justify-between titlebar">
     <div class="text-sm font-semibold">
         {{ title }}
     </div>
@@ -37,11 +37,23 @@ function close() {
             <slot />
         </div>
         <Separator orientation="vertical" class="h-4 dark:bg-neutral-300 bg-neutral-800" />
-        <div class="flex gap-7 items-center justify-center">
-            <Minus class="w-4 h-4 cursor-pointer" @click="minimize" />
-            <Minimize2 v-if="isMaximized" class="w-4 h-4 cursor-pointer" @click="toggleMaximize" />
-            <Maximize2 v-else class="w-4 h-4 cursor-pointer" @click="toggleMaximize" />
-            <X class="w-4 h-4 cursor-pointer hover:text-red-500" @click="close" />
+        <div class="flex items-center justify-center">
+            <div 
+                class="h-9 w-9 flex items-center justify-center hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"
+                @click="minimize" >
+                <Minus class="w-4 h-4" />
+            </div>
+            <div 
+                class="h-9 w-9 flex items-center justify-center hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer" 
+                @click="toggleMaximize" >
+                <Minimize2 v-if="isMaximized" class="w-4 h-4"/>
+                <Maximize2 v-else class="w-4 h-4" />
+            </div>
+            <div 
+                class="group h-9 w-9 flex items-center justify-center hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"
+                @click="close">
+                <X class="w-4 h-4 group-hover:text-red-500" />
+            </div>
         </div>
     </div>
   </div>

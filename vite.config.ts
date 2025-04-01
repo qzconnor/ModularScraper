@@ -4,7 +4,7 @@ import electron from 'vite-plugin-electron/simple'
 import vue from '@vitejs/plugin-vue'
 import autoprefixer from 'autoprefixer'
 import tailwind from 'tailwindcss'
-
+import rollup from "@rollup/plugin-commonjs"
 // https://vitejs.dev/config/
 export default defineConfig({
   css: {

@@ -1,12 +1,13 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, protocol, net } from 'electron'
 // import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 // Use `electron-store` to persist user preferences.
 // import store from './singelton/store';
-import {ensureModulePath} from './module-loader';
-import {injectApi} from './api';
+import {ensureModulePath, MODULES_PATH} from './module-loader';
+import {injectApi} from './electron_api';
+import { ensureLogFolder } from './module-log';
 
 
 
@@ -31,6 +32,18 @@ export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
 
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'media',
+    privileges: {
+      secure: true,
+      supportFetchAPI: true,
+      bypassCSP: true,
+      stream: true,
+    },
+  },
+])
+
 let win: BrowserWindow | null
 
 function createWindow() {
@@ -39,6 +52,8 @@ function createWindow() {
     autoHideMenuBar: true,
     minHeight: 300,
     minWidth: 400,
+    width: 1000,
+    height: 600,
     icon: path.join(process.env.VITE_PUBLIC, 'icon.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
@@ -56,14 +71,26 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
-  
   ensureModulePath()
+
+  ensureLogFolder()
+
   try {
     injectApi(win)
   } catch (error) {
     console.error(`Failed to inject API: ${error}`);
   }
 
+  protocol.handle('media', async (req) => {
+    const pathToMedia = new URL(req.url).pathname;
+    const cleanPath = pathToMedia.replace(/^\/+/, '');
+
+    if(!isPathInFolder(cleanPath, MODULES_PATH)) {
+      return new Response("Forbidden", { status: 403 });
+    }
+
+    return net.fetch(`file://${pathToMedia}`);
+  })
   
 }
 
@@ -86,3 +113,10 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(createWindow)
+
+
+function isPathInFolder(filePath: string, folderPath: string): boolean {
+  const resolvedFilePath = path.resolve(filePath);
+  const resolvedFolderPath = path.resolve(folderPath);
+  return resolvedFilePath.startsWith(resolvedFolderPath + path.sep);
+}

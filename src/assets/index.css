@@ -69,12 +69,38 @@
   
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border
   }
   body {
     @apply bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300;
   }
+
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #d4d4d4 
+  }
+  
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .dark *::-webkit-scrollbar-thumb {
+    background-color: #d4d4d4;
+    border-radius: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #262626;
+    border-radius: 10px;
+  }
+  
 }
+
 
 
 .titlebar {

@@ -11,6 +11,8 @@
   "author": "xConnorTV",
   "description": "A modular, modern scraper for the web.",
   "dependencies": {
+    "@distube/ytdl-core": "^4.16.6",
+    "@rollup/plugin-commonjs": "^28.0.3",
     "@tailwindcss/vite": "^4.0.17",
     "@tanstack/vue-table": "^8.21.2",
     "@vee-validate/zod": "^4.15.0",
@@ -19,6 +21,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "electron-store": "^10.0.1",
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "github:qzconnor/node-fluent-ffmpeg",
     "json-schema-to-zod": "^2.6.0",
     "lucide-vue-next": "^0.485.0",
     "pinia": "^3.0.1",
@@ -28,12 +32,15 @@
     "vee-validate": "^4.15.0",
     "vue": "^3.4.21",
     "vue-router": "^4.5.0",
+    "ytdl-core": "npm:@distube/ytdl-core@^4.15.9",
     "zod": "^3.24.2",
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
     "@iconify-json/radix-icons": "^1.2.2",
     "@iconify/vue": "^4.3.0",
+    "@types/ffmpeg-installer__ffmpeg": "^1.0.2",
+    "@types/fluent-ffmpeg": "^2.1.27",
     "@types/node": "^22.13.14",
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.21",

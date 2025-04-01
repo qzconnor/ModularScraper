@@ -3,6 +3,9 @@ import store from './singelton/store';
 import * as fs from 'node:fs';
 import type { ModuleInstance } from '../sharedtypes';
 import { pathToFileURL } from 'url';
+import { BrowserWindow } from 'electron';
+import {writeLog, clearLog} from "./module-log"
+import { getInfo, download } from "./apis"
 
 export const MODULES_PATH = path.join(path.dirname(store.path), 'modules');
 
@@ -10,12 +13,16 @@ export function ensureModulePath() {
     if (!fs.existsSync(MODULES_PATH)) {
         fs.mkdirSync(MODULES_PATH);
     }
+
+    const icons = path.join(MODULES_PATH, 'icons');
+    if (!fs.existsSync(icons)) {
+        fs.mkdirSync(icons);
+    }
 }
 
 export async function loadModules(withRunnable: boolean = true) {
     const files = fs.readdirSync(MODULES_PATH);
     const moduleFiles = files.filter(file => file.endsWith('.mjs'));
-
     const loadedModules: ModuleInstance[] = [];
     const errors: Error[] = [];
     for (const file of moduleFiles) {
@@ -31,6 +38,10 @@ export async function loadModules(withRunnable: boolean = true) {
                 errors.push(new Error(`Module ${file} does not have a default export that is a function`));
                 continue;
             }
+
+            const isIconExternal = instance.icon && instance.icon.startsWith('http');
+
+    
             const obj = {
                 name: instance.name || path.basename(file).split('.')[0],
                 description: instance.description,
@@ -42,21 +53,47 @@ export async function loadModules(withRunnable: boolean = true) {
                 obj.execute = instance.default;
             }
 
+            if(instance.icon) {
+
+                if(isIconExternal) obj.icon = instance.icon;
+                else {
+                    const isIconValid = fs.existsSync(path.join(MODULES_PATH, 'icons', instance.icon));
+                    if(isIconValid) {
+                        obj.icon = `media:///${path.join(MODULES_PATH, 'icons', instance.icon)}`
+                    }
+                }
+            }
+
             loadedModules.push(obj);
         } catch (error) {
             errors.push(error as Error);
         }
     }
+
     return [loadedModules, errors] as const;
 }
 
-export async function runModule(moduleName: string, data: any) {
+export async function runModule(window: BrowserWindow, moduleName: string, data: any) {
     const [modules, errors] = await loadModules();
     const module = modules.find(m => m.name === moduleName);
     if (!module) {
         errors.push(new Error(`Module ${moduleName} not found`));
         return [false, errors] as const;
     }
-    module.execute(data);
+    clearLog(moduleName);
+    window.webContents.send(`log-update-${moduleName}`);
+    await module.execute({
+        data,
+        api: {
+            youtube: {
+                getInfo: (url: string): any => getInfo(url),
+                download: download
+            }
+        },
+        log: (...args: any[]) => {
+            writeLog(moduleName, ...args);
+            window.webContents.send(`log-update-${moduleName}`);
+        }
+    });
     return [true, errors] as const;
 }

@@ -18,10 +18,15 @@
       :to="`/module/${module.name}`"
       v-for="module in modules"
       :key="module.name"
-      class="p-4 border rounded-lg shadow-md bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 hover:dark:bg-neutral-600 cursor-pointer"
+      class="flex items-center gap-4 p-4 border rounded-lg shadow-md bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 hover:dark:bg-neutral-600 cursor-pointer"
     >
+      <div v-if="module.icon">
+        <img :src="module.icon" class="w-10 h-10 rounded-lg" />
+      </div>
+     <div>
       <h2 class="text-lg font-bold">{{ module.name }}</h2>
       <p class="text-sm text-neutral-400">{{ module.description }}</p>
+     </div>
     </RouterLink>
   </div>
 

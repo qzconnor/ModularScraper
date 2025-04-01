@@ -12,10 +12,11 @@ export const API = {
   openModuleFolder: () => ipcRenderer.send('open-modulefolder'),
 
 
-  onModuleUpdated: (listener: () => Promise<void>) => ipcRenderer.on('module-updated', listener)
+  onModuleUpdated: (listener: () => Promise<void>) => ipcRenderer.on('module-updated', listener),
 
-
-
+  getLog: (name: string) => ipcRenderer.invoke('get-log', name),
+  clearLog: (name: string) => ipcRenderer.send('clear-log', name),
+  onLogUpdated: (name: string, listener: () => Promise<void>) => ipcRenderer.on('log-update-' + name, listener),
 }
 
 // --------- Expose some API to the Renderer process ---------

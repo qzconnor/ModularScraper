@@ -7,6 +7,15 @@
   "directories": {
     "output": "release/${version}"
   },
+  "extraResources": [
+    {
+      "from": "bin/",
+      "to": "bin/",
+      "filter": ["**/*"]
+    }
+  ]
+
+
   "files": [
     "dist",
     "dist-electron"
@@ -40,5 +49,5 @@
       "AppImage"
     ],
     "artifactName": "${productName}-Linux-${version}.${ext}"
-  }
+  },
 }

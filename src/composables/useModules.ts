@@ -1,4 +1,4 @@
-import { ModuleInstance } from 'sharedtypes';
+import { ModuleInstance } from '../../sharedtypes';
 import { onMounted, ref } from 'vue';
 export default function () {
     const modules = ref<Omit<ModuleInstance, 'execute'>[]>([]);
