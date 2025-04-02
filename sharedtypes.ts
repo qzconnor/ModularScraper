@@ -19,6 +19,7 @@ export type ModuleInstance = {
             dialog: {
                 open: (options: any) => Promise<any>;
                 save: (options: any) => Promise<any>;
+                showFileInFolder: (path: string) => void;
             }
         }
     }) => Promise<void>;

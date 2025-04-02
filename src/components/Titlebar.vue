@@ -28,15 +28,15 @@ function close() {
 </script> 
 
 <template>
-  <div class="w-full fixed top-0 h-9 bg-transparent pl-4 flex items-center justify-between titlebar">
-    <div class="text-sm font-semibold">
+  <div class="w-full fixed top-0 h-9 bg-transparent pl-4 flex items-center justify-end titlebar">
+    <div class="absolute text-sm font-semibold flex justify-center items-center w-full h-full z-100">
         {{ title }}
     </div>
-    <div class="flex gap-6 items-center justify-center">
+    <div class="relative flex gap-6 items-center justify-center titlebar-ignore">
         <div>
             <slot />
         </div>
-        <Separator orientation="vertical" class="h-4 dark:bg-neutral-300 bg-neutral-800" />
+        <Separator orientation="vertical" class="h-4 dark:bg-neutral-500 bg-neutral-800" />
         <div class="flex items-center justify-center">
             <div 
                 class="h-9 w-9 flex items-center justify-center hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer"

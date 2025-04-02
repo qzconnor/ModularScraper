@@ -20,7 +20,7 @@ const emits = defineEmits<{
     <TooltipProvider>
         <Tooltip>
             <TooltipTrigger as-child>
-                <div class="box hover:scale-110 cursor-pointer" @click="emits('click')">
+                <div class="box cursor-pointer" @click="emits('click')">
                     <slot />
             </div>
             </TooltipTrigger>
@@ -33,6 +33,6 @@ const emits = defineEmits<{
 
 <style scoped>
 .box {
-    @apply  bg-background dark:bg-neutral-600 shadow-lg rounded-xl w-11 h-11 flex items-center justify-center;
+    @apply  bg-background dark:bg-neutral-700 hover:dark:bg-neutral-600 shadow-lg rounded-xl w-11 h-11 flex items-center justify-center;
 }
 </style>

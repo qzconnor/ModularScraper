@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import SmallMenu from '@/components/SmallMenu.vue';
   import { Button } from '@/components/ui/button';
   import {
     Dialog,
@@ -78,8 +77,7 @@
 </script>
 
 <template>
-  <SmallMenu />
-  <div class="mt-3 flex flex-col gap-2 h-[calc(100%-2.5rem)]">
+  <div class="flex flex-col gap-2 h-[calc(100%)]">
     <div class="flex-none flex justify-between items-center bg-neutral-200 dark:bg-neutral-800 p-4 rounded-lg shadow-md">
       <div class="flex gap-4 items-center">
        <div v-if="module?.icon">
@@ -124,7 +122,7 @@
       </Dialog>
     </div>
     <div class="flex justify-between items-center">
-      <div class="flex  gap-3">
+      <div class="flex gap-3">
         <h2 class="text-sm font-bold">Logs</h2>
         <p class="text-sm italic text-neutral-400">Real-time logs of the module execution</p>
       </div>

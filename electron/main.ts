@@ -51,7 +51,7 @@ function createWindow() {
     titleBarStyle: 'hidden',
     autoHideMenuBar: true,
     minHeight: 300,
-    minWidth: 400,
+    minWidth: 600,
     width: 1000,
     height: 600,
     icon: path.join(process.env.VITE_PUBLIC, 'icon.ico'),

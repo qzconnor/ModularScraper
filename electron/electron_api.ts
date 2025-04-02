@@ -5,7 +5,8 @@ import chokidar from 'chokidar';
 
 const watcher = chokidar.watch(MODULES_PATH, {
     persistent: true,
-    ignoreInitial: true
+    ignoreInitial: false,
+    awaitWriteFinish: { stabilityThreshold: 500, pollInterval: 100 }
 });
 
 export function injectApi(window: BrowserWindow | null) {
@@ -63,6 +64,7 @@ export function injectApi(window: BrowserWindow | null) {
     });
 
     watcher.on('change', async () => {
+        console.log('change');
         window.webContents.send('module-updated');
     });
 

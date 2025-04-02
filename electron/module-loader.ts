@@ -5,7 +5,7 @@ import type { ModuleInstance } from '../sharedtypes';
 import { pathToFileURL } from 'url';
 import { BrowserWindow } from 'electron';
 import {writeLog, clearLog} from "./module-log"
-import { getInfoTiktok, downloadYoutube, downloadTiktok, openDialog, saveDialog, getInfoYoutube,  } from "./apis"
+import { getInfoTiktok, downloadYoutube, downloadTiktok, openDialog, saveDialog, getInfoYoutube, showFileInFolder } from "./apis"
 
 export const MODULES_PATH = path.join(path.dirname(store.path), 'modules');
 
@@ -103,7 +103,8 @@ export async function runModule(window: BrowserWindow, moduleName: string, data:
                     },
                     save: async (options: any) => {
                         return await saveDialog(window, options);
-                    }
+                    },
+                    showFileInFolder: showFileInFolder
                 }
             },
             log: (...args: any[]) => {
