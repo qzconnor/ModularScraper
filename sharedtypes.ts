@@ -10,8 +10,16 @@ export type ModuleInstance = {
         api: {
             youtube: {
                 getInfo: (url: string) => Promise<any>;
-                download: (url: string, progressCallback: ProgressCallback) => Promise<string>;
-            };
+                download: (url: string, filePath:string, progressCallback: ProgressCallback) => Promise<string>;
+            },
+            tiktok: {
+                getInfo: (url: string) => Promise<any>;
+                download: (url: string, outPath: string, callback: (progess: number) => void) => Promise<void>;
+            },
+            dialog: {
+                open: (options: any) => Promise<any>;
+                save: (options: any) => Promise<any>;
+            }
         }
     }) => Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { ipcRenderer, contextBridge } from 'electron'
+import { ipcRenderer, contextBridge, IpcRendererEvent } from 'electron'
 
 
 export const API = {
@@ -17,6 +17,12 @@ export const API = {
   getLog: (name: string) => ipcRenderer.invoke('get-log', name),
   clearLog: (name: string) => ipcRenderer.send('clear-log', name),
   onLogUpdated: (name: string, listener: () => Promise<void>) => ipcRenderer.on('log-update-' + name, listener),
+
+  onLoading: (name: string, listener: (event: IpcRendererEvent, ...args: any[]) => Promise<void>) => {
+    console.log("listening to loading-" + name)
+    ipcRenderer.on('loading-' + name, listener)
+  }
+
 }
 
 // --------- Expose some API to the Renderer process ---------

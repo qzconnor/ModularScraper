@@ -16,6 +16,7 @@
   import { z } from 'zod'
   import { jsonSchemaToZod } from "json-schema-to-zod";
   import { AutoForm } from '@/components/ui/auto-form'
+  import { Loader2 } from 'lucide-vue-next'
 
   import useLog from '@/composables/useLog';
   import { watch, nextTick } from 'vue';
@@ -37,14 +38,21 @@
   const formSchema = ref<any>(null)
   const dialogOpen = ref(false)
 
+  const loading = ref(false)
+
   function parseToZod(schema: any) {
     const temp = jsonSchemaToZod(schema, { module: "none" })
     return new Function('z', `return ${temp}`)(z)
   }
 
+
   onMounted(async () => {
     module.value = await window.api.getModule(route.params.name as string | undefined)
     
+    window.api.onLoading(module.value?.name!, async (_event, state) => {
+      loading.value = state
+    })
+
     if (module.value?.schema) {
       const zodSchema = parseToZod(module.value.schema)
       formSchema.value = zodSchema
@@ -53,6 +61,8 @@
     nextTick(() => {
       logsRef.value?.scrollTo(0, logsRef.value?.scrollHeight)
     })
+
+  
   })
 
   async function onSubmit(data: any) {
@@ -80,11 +90,15 @@
         <p class="text-sm italic text-neutral-400">{{ module?.description }}</p>
        </div>
       </div>
-    
+
       <Dialog v-model:open="dialogOpen">
         <DialogTrigger as-child>
-          <Button :disabled="!module?.schema || !formSchema">
-            Execute
+          <Button :disabled="(!module?.schema || !formSchema) || loading">
+            <span v-if="loading" class="flex items-center gap-2">
+              <Loader2  class="w-4 h-4 animate-spin" />
+              Executing
+            </span>
+            <span v-else>Execute</span>
           </Button>
         </DialogTrigger>
         
@@ -116,7 +130,7 @@
       </div>
     </div>
     <div ref="logsRef" class="flex-1 bg-neutral-200 dark:bg-neutral-800 p-4 rounded-lg shadow-md overflow-auto">
-        <pre v-if="logs.length > 0" v-for="(log, i) in logs" :key="i" class="text-sm text-neutral-700 dark:text-neutral-300">{{ log }}</pre>
+        <pre v-if="logs.length > 0" v-for="(log, i) in logs" :key="i" class="text-sm text-neutral-700 dark:text-neutral-300 w-5/6 text-wrap">{{ log }}</pre>
         <div class="flex justify-center items-center h-full" v-else>
           <p class="text-sm italic text-neutral-400">No logs available</p>
         </div>

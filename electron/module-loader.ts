@@ -5,7 +5,7 @@ import type { ModuleInstance } from '../sharedtypes';
 import { pathToFileURL } from 'url';
 import { BrowserWindow } from 'electron';
 import {writeLog, clearLog} from "./module-log"
-import { getInfo, download } from "./apis"
+import { getInfoTiktok, downloadYoutube, downloadTiktok, openDialog, saveDialog, getInfoYoutube,  } from "./apis"
 
 export const MODULES_PATH = path.join(path.dirname(store.path), 'modules');
 
@@ -82,18 +82,42 @@ export async function runModule(window: BrowserWindow, moduleName: string, data:
     }
     clearLog(moduleName);
     window.webContents.send(`log-update-${moduleName}`);
-    await module.execute({
-        data,
-        api: {
-            youtube: {
-                getInfo: (url: string): any => getInfo(url),
-                download: download
+
+    console.log(`sent loading-${moduleName}`, true);
+    window.webContents.send(`loading-${moduleName}`, true);
+    try {
+        await module.execute({
+            data,
+            api: {
+                youtube: {
+                    getInfo: (url: string): any => getInfoYoutube(url),
+                    download: downloadYoutube
+                },
+                tiktok: {
+                    getInfo: (url: string): any => getInfoTiktok(url), 
+                    download: downloadTiktok
+                },
+                dialog: {
+                    open: async (options: any) => {
+                        return await openDialog(window, options);
+                    },
+                    save: async (options: any) => {
+                        return await saveDialog(window, options);
+                    }
+                }
+            },
+            log: (...args: any[]) => {
+                writeLog(moduleName, ...args);
+                window.webContents.send(`log-update-${moduleName}`);
             }
-        },
-        log: (...args: any[]) => {
-            writeLog(moduleName, ...args);
-            window.webContents.send(`log-update-${moduleName}`);
-        }
-    });
+        });
+    } catch (error) {
+        writeLog(moduleName, error);
+        window.webContents.send(`log-update-${moduleName}`);
+    }
+   
+    console.log(`sent loading-${moduleName}`, false);
+    window.webContents.send(`loading-${moduleName}`, false);
+
     return [true, errors] as const;
 }
