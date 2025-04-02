@@ -86,7 +86,10 @@
         <img :src="module?.icon" class="w-10 h-10 rounded-lg" />
        </div>
        <div class="flex flex-col">
-        <h1 class="text-xl font-bold">{{ module?.name }}</h1>
+        <div class="flex gap-2 items-center">
+          <h1 class="text-xl font-bold">{{ module?.name }}</h1>
+          <span class="text-sm text-neutral-400">{{ module?.version }}</span>
+        </div>
         <p class="text-sm italic text-neutral-400">{{ module?.description }}</p>
        </div>
       </div>

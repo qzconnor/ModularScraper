@@ -23,8 +23,11 @@
       <div v-if="module.icon">
         <img :src="module.icon" class="w-10 h-10 rounded-lg" />
       </div>
-     <div>
-      <h2 class="text-lg font-bold">{{ module.name }}</h2>
+      <div>
+      <div class="flex gap-2 items-center">
+        <h2 class="text-lg font-bold">{{ module.name }}</h2>
+        <span class="text-sm text-neutral-400">{{ module.version }}</span>
+      </div>
       <p class="text-sm text-neutral-400">{{ module.description }}</p>
      </div>
     </RouterLink>
