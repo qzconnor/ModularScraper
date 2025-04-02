@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 // import { Button } from '@/components/ui/button'
 import { Minimize2, Maximize2, Minus, X } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue';
+
 const title = useTitle()
 
 const isMaximized = ref(false);

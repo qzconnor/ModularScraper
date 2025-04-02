@@ -65,8 +65,15 @@
     }
 }
 
-/*bg-neutral-100 text-neutral-800 dark:text-neutral-300 dark:bg-neutral-800*/
-  
+@layer utilities {
+  .drag-none {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
+}
 @layer base {
   * {
     @apply border-border

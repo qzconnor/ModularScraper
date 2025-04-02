@@ -19,11 +19,12 @@
 
   import useLog from '@/composables/useLog';
   import { watch, nextTick } from 'vue';
-
+  
 
   const route = useRoute()
 
   const logs = useLog(route.params.name as string)
+
 
   const logsRef = ref<HTMLDivElement | null>(null)
 
@@ -47,7 +48,8 @@
 
   onMounted(async () => {
     module.value = await window.api.getModule(route.params.name as string | undefined)
-    
+
+    document.title = `Module ${module.value?.name}`
     window.api.onLoading(module.value?.name!, async (_event, state) => {
       loading.value = state
     })

@@ -30,7 +30,7 @@
   <div class="flex justify-between items-center">
   <div class="flex gap-3">
     <TooltipProvider>
-      <Input placeholder="Search modules" v-model:model-value="search" class="w-60" />
+      <Input placeholder="Search modules" v-model:model-value="search" class="w-60 select-none" />
       <Tooltip>
         <TooltipTrigger as-child>
           <Button @click="search = debounced = ''">
@@ -54,7 +54,7 @@
       :to="`/module/${module.name}`"
       v-for="module in filteredModules"
       :key="module.name"
-      class="flex items-center gap-4 p-4 border rounded-lg shadow-md bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 hover:dark:bg-neutral-600 cursor-pointer"
+      class="drag-none flex items-center gap-4 p-4 border rounded-lg shadow-md bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 hover:dark:bg-neutral-600 cursor-pointer"
     >
       <div v-if="module.icon">
         <img :src="module.icon" class="w-10 h-10 rounded-lg" />
