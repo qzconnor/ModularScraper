@@ -2,6 +2,7 @@ import { BrowserWindow, ipcMain, shell } from 'electron'
 import { loadModules, MODULES_PATH, runModule } from './module-loader';
 import {readLog, clearLog} from "./module-log"
 import chokidar from 'chokidar';
+import { autoUpdater } from 'electron-updater';
 
 const watcher = chokidar.watch(MODULES_PATH, {
     persistent: true,
@@ -58,6 +59,10 @@ export function injectApi(window: BrowserWindow | null) {
         const module = modules.find(m => m.name === name);
         return module;
     });
+
+    autoUpdater.on("update-available", (info) => {
+        window.webContents.send("update-available", info);
+    })
 
     watcher.on('add', async () => {
         window.webContents.send('module-updated');

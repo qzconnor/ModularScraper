@@ -2,7 +2,7 @@ import { app, BrowserWindow, protocol, net } from 'electron'
 // import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-
+import { autoUpdater } from 'electron-updater';
 // Use `electron-store` to persist user preferences.
 // import store from './singelton/store';
 import {ensureModulePath, MODULES_PATH} from './module-loader';
@@ -71,6 +71,9 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
+
+  autoUpdater.checkForUpdatesAndNotify()
+
   ensureModulePath()
 
   ensureLogFolder()
@@ -91,7 +94,7 @@ function createWindow() {
 
     return net.fetch(`file://${pathToMedia}`);
   })
-  
+
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

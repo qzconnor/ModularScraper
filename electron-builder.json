@@ -14,8 +14,13 @@
       "filter": ["**/*"]
     }
   ],
-
-
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "qzconnor",
+      "repo": "ModularScraper"
+    }
+  ],
   "files": [
     "dist",
     "dist-electron"

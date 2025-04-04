@@ -26,6 +26,10 @@ function close() {
     window.api.close();
 }
 
+window.api.onUpdateAvailable(async (_, info) => {
+    console.log('Update available', info)
+})
+
 </script> 
 
 <template>

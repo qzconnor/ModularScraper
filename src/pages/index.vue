@@ -2,6 +2,7 @@
   // import {Button} from '@/components/ui/button'
   import useModules from '@/composables/useModules';
   import {Input} from '@/components/ui/input';
+  import {Button} from '@/components/ui/button';
   import { refDebounced } from '@vueuse/core'
   import { ref } from 'vue';
   import { computed } from 'vue';
@@ -33,7 +34,7 @@
       <Input placeholder="Search modules" v-model:model-value="search" class="w-60 select-none" />
       <Tooltip>
         <TooltipTrigger as-child>
-          <Button @click="search = debounced = ''">
+          <Button @click="search = debounced = ''" variant="ghost" class="h-9 w-9 flex items-center justify-center hover:bg-neutral-300 dark:hover:bg-neutral-600 cursor-pointer">
             <Ban class="w-4 h-4" />
           </Button>
         </TooltipTrigger>

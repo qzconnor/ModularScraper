@@ -21,8 +21,9 @@ export const API = {
   onLoading: (name: string, listener: (event: IpcRendererEvent, ...args: any[]) => Promise<void>) => {
     console.log("listening to loading-" + name)
     ipcRenderer.on('loading-' + name, listener)
-  }
+  },
 
+  onUpdateAvailable: (listener: (event: IpcRendererEvent, ...args: any[]) => Promise<void>) => ipcRenderer.on('update-available', listener),
 }
 
 // --------- Expose some API to the Renderer process ---------
